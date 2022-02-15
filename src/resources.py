@@ -21,3 +21,5 @@ class Goblin:
 
     def __str__(self) -> str:
         return f"Goblin: {self.name}\nHealth: {self.health}\nAttack: {self.attack}\nArmor: {self.armor}"
+
+print("test")
