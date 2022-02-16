@@ -1,31 +1,63 @@
 
 import resources
 from resources import Character, Goblin
-from random import randint
+from random import randint, shuffle, choice
+
+def fight(players: list, enemies:list):
+    participants= players+enemies # make initiative ordering
+    shuffle(participants)
+
+    for char in participants:
+        target =""
+        # is target a player or a monster?
+        if char in players:
+            target = choice(enemies)
+        else:
+            target = choice(players)
+
+
+        target.take_damage(char.get_attack())
+        
+        if target.get_health()==0:
+            print(f"{target.get_name()} has died!")
+            if type(target) == Goblin:
+                enemies.remove(target)
+            else:
+                players.remove(target)
+            participants.remove(target)
+        else:
+            print(f"{target.get_name()} has {target.get_health()} hp remaining")
+        if len(enemies)==0 or len(players) ==0:
+            break
 
 if __name__ =="__main__":
-    nemy = Character("Nemy", 20,5,2)
-    goblin_one = Goblin(10,3,1)
+    enemies=[]
+    players= []
 
-    print(nemy)
-    print()
-    print(goblin_one)
+    emy = Character("Emy", 20,5,1.5)
+    nick = Character("Nick", 15,2,1)
+    players.append(emy)
+    players.append(nick)
 
-    fight_round = 1
-    print("============Fight=============")
-    while nemy.get_health()!=0 and goblin_one.get_health()!=0:
-        print(f"round {fight_round} ")
-        nemy_attack = nemy.damage()*randint(1,3)
-        goblin_one.take_damage(nemy_attack)
-        if (goblin_one.get_health()==0):
-            print("goblin has died.")
-            break
-        else:
-            print(f" goblin has {goblin_one.get_health()}hp left.")
-            goblin_attack=goblin_one.damage()*randint(1,3)
-            nemy.take_damage(goblin_attack)
-            print(f"Nemy has {nemy.get_health()}hp left")
-            if (nemy.get_health()==0):print("nemy has died.")
-        fight_round+=1
-    if(nemy.get_health()==0): print("the goblin won!")
-    else:print("nemy has won")
+    enemies.append(Goblin(10,3,2,1))
+    enemies.append(Goblin(15,2,1,2))
+    enemies.append(Goblin(12,3,2,3))
+
+    round =1
+    while len(enemies) != 0 and len(players) != 0:
+        print(f"ROUND {round}, FIGHT")
+        fight(players, enemies)
+        print()
+        round+=1
+    
+    if len(enemies) == 0:
+        print("The players won!")
+    elif len(players)==0:
+        print("The Goblins won!")
+
+
+
+
+
+
+
