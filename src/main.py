@@ -1,6 +1,6 @@
 
 import resources
-from resources import Character, Goblin
+from resources import Character, Goblin, save_character, load_characters
 from random import randint, shuffle, choice
 
 def fight(players: list, enemies:list):
@@ -32,12 +32,12 @@ def fight(players: list, enemies:list):
 
 if __name__ =="__main__":
     enemies=[]
-    players= []
+    players= load_characters()
 
-    emy = Character("Emy", 20,5,1.5)
-    nick = Character("Nick", 15,2,1)
-    players.append(emy)
-    players.append(nick)
+    # emy = Character("Emy", 20,5,2)
+    # nick = Character("Nick", 15,2,1)
+    # players.append(emy)
+    # players.append(nick)
 
     enemies.append(Goblin(10,3,2,1))
     enemies.append(Goblin(15,2,1,2))
@@ -52,6 +52,13 @@ if __name__ =="__main__":
     
     if len(enemies) == 0:
         print("The players won!")
+        print("wolud you like to save the remaining characters?")
+        save_choice = input("(y/n)")
+        if save_choice =="y":
+            save_character(players)
+        else:
+            print("no progress was saved.")
+
     elif len(players)==0:
         print("The Goblins won!")
 
