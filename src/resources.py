@@ -1,7 +1,26 @@
+from random import randint, choice
+
+
+class Weapon:
+    def __init__(self, name, damage):
+        self.name=name
+        self.damage=damage
+    
+
+    def get_damage(self):
+        return self.damage
+    
+
+
+
+GOBLIN_WEAPONS =[Weapon("Rusty Cleaver",2) ,
+                Weapon("Rusty spear",3),
+                Weapon("stone axe",1)]
 
 
 
 class Character:
+
 
     def __init__(self, name, health, attack, armor):
         self.name=name
@@ -35,11 +54,12 @@ class Character:
 
 class Goblin:
 
-    def __init__(self,  health, attack, armor, id):
+    def __init__(self,  health , armor, id):
         self.health=health
-        self.attack=attack
         self.armor=armor
         self.id=id
+        self.weapon=choice(GOBLIN_WEAPONS)
+        self.attack=self.weapon.get_damage()
 
     def __str__(self) -> str:
         return f"Goblin: {self.id}\nHealth: {self.health}\nAttack: {self.attack}\nArmor: {self.armor}"
@@ -69,8 +89,9 @@ def save_character(chars:list):
         save_list.append(save_string)
     
     with open("saved_characters.txt", "w", encoding="utf8") as f:
-        f.write(save_string)
-        print(f"{name} has beem successfully saved.")
+        for line in save_list:
+            f.write(line)
+        print("Characters has beem successfully saved.")
 
 def load_characters():
     characters = []
@@ -84,3 +105,17 @@ def load_characters():
 
             characters.append(char)
     return characters
+
+def create_character():
+    print ("Welcome to the character creator!")
+    name = input("What is your character called?")
+    health = randint(10,30)
+    attack = randint(1,5)
+    armor = randint(0,5)
+    
+    return_char = Character(name,health,attack,armor)
+
+    print()
+    print(return_char)
+    print("Character has been created")
+    return return_char
